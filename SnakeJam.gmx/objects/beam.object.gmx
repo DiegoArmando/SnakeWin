@@ -28,6 +28,7 @@
             <string>alarm[0]=room_speed/4;
 parent=noone;
 angle=0;
+myplayer=0;
 </string>
           </argument>
         </arguments>
@@ -77,6 +78,7 @@ angle=0;
 if (instance_exists(parent)) {
     x=parent.x+lengthdir_x(16, angle);
     y=parent.y+lengthdir_y(16, angle);
+    myplayer=parent.myplayer;
 }
 
 image_alpha=alarm[0]/(room_speed/4);
@@ -102,8 +104,26 @@ image_alpha=alarm[0]/(room_speed/4);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (other.id!=parent) {
-  background_color=choose(c_red, c_lime, c_blue, c_fuchsia, c_yellow, c_white);
+            <string>if (myplayer&gt;0 &amp;&amp; other.myplayer!=myplayer &amp;&amp; !global.hit[myplayer]) {
+  global.hit[myplayer]=true;
+  hitplayer=other.myplayer;
+  with (tail) {
+    if (!instance_exists(child) &amp;&amp; myplayer==other.hitplayer) {
+        parent.child=noone;
+        instance_destroy();
+        break;
+    }
+  }
+  
+  with (player) {
+    if (!instance_exists(child) &amp;&amp; myplayer==other.myplayer) {
+        child=instance_create(x, y, tail);
+        with (child) {
+          parent=other.id;
+        }
+        break;
+    }
+  }
 }
 </string>
           </argument>
