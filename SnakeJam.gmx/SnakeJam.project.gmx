@@ -20,9 +20,11 @@
     <object>objects\beam</object>
     <object>objects\control</object>
     <object>objects\tail</object>
+    <object>objects\victory</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\GameRoom</room>
+    <room>rooms\VictoryRoom</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -28,6 +28,97 @@
             <string>global.hit[0]=0;
 global.hit[1]=0;
 global.hit[2]=0;
+
+global.stocks[0]=4;
+global.stocks[1]=4;
+global.stocks[2]=4;
+
+global.reset=false;
+
+hp[1]=0;
+hp[2]=0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>movingTails=false;
+with (tail) {
+  if (round(point_distance(x,y,parent.x,parent.y))&gt;40) {
+    other.movingTails=true;
+    break;
+  }
+}
+
+if (!movingTails) { global.reset=false; }
+
+hp[1]=global.stocks[1];
+hp[2]=global.stocks[2];
+
+with (player) {
+  other.hp[myplayer]+=1;
+}
+
+if (hp[1]&lt;=0) {
+  global.winner=2;
+  room_goto(VictoryRoom);
+}
+else if (hp[2]&lt;=0) {
+  global.winner=1;
+  room_goto(VictoryRoom);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>xx=32;
+yy=32;
+for (i=0; i&lt;global.stocks[1]; ++i) {
+  draw_sprite_stretched_ext(circle_spr, 0, xx+32*i, yy, 16, 16, c_aqua, 1);
+}
+
+xx=room_width-32;
+yy=32;
+for (i=0; i&lt;global.stocks[2]; ++i) {
+  draw_sprite_stretched_ext(circle_spr, 0, xx-32*i, yy, 16, 16, c_red, 1);
+}
+
+//draw_text(10, 10, "P1 HP: "+string(hp[1])+" STOCKS: "+string(global.stocks[1])+"#P2 HP: "+string(hp[2])+" STOCKS: "+string(global.stocks[2]));
 </string>
           </argument>
         </arguments>

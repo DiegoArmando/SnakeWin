@@ -104,7 +104,11 @@ child=noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>nobeams=true;
+            <string>if (global.reset) {
+  exit;
+}
+
+nobeams=true;
 with (beam) {
   if (myplayer==other.myplayer) {
     other.nobeams=false;
@@ -147,10 +151,19 @@ if (abs(vsp)&lt;fric) { vsp=0; }
 
 sp=point_distance(0,0,hsp,vsp);
 
-if (sp&gt;maxsp) {
+tailPieces=0;
+with (tail) {
+  if (myplayer==other.myplayer) {
+    other.tailPieces+=1;
+  }
+}
+
+if (tailPieces&gt;0) { global.stocks[myplayer]=max(0, global.stocks[myplayer]); }
+
+if (sp&gt;maxsp/(1+0.1*tailPieces)) {
   dir=point_direction(0,0,hsp,vsp);
-  hsp=lengthdir_x(maxsp, dir);
-  vsp=lengthdir_y(maxsp, dir);
+  hsp=lengthdir_x(maxsp/(1+0.1*tailPieces), dir);
+  vsp=lengthdir_y(maxsp/(1+0.1*tailPieces), dir);
 }
 
 x+=hsp;

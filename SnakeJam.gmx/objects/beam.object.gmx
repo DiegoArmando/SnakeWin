@@ -105,14 +105,21 @@ image_alpha=alarm[0]/(room_speed/4);
           <argument>
             <kind>1</kind>
             <string>if (myplayer&gt;0 &amp;&amp; other.myplayer!=myplayer &amp;&amp; !global.hit[myplayer]) {
+
   global.hit[myplayer]=true;
   hitplayer=other.myplayer;
+  
+  hadTail=false;
   with (tail) {
     if (!instance_exists(child) &amp;&amp; myplayer==other.hitplayer) {
         parent.child=noone;
+        other.hadTail=true;
         instance_destroy();
         break;
     }
+  }
+  if (!hadTail || global.stocks[hitplayer]&gt;0) {
+    global.stocks[hitplayer]=max(-1, global.stocks[hitplayer]-1);
   }
   
   with (player) {
@@ -124,6 +131,15 @@ image_alpha=alarm[0]/(room_speed/4);
         break;
     }
   }
+  
+  global.reset=true;
+  with (player) {
+    if (object_index!=tail) {
+      x=xstart;
+      y=ystart;
+    }
+  }
+  
 }
 </string>
           </argument>
